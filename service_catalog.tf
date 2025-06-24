@@ -20,12 +20,12 @@ resource "aws_servicecatalog_product" "web_app_product" {
   }
 }
 
-resource "aws_servicecatalog_portfolio_product_association" "association" {
+resource "aws_servicecatalog_principal_portfolio_association" "association" {
   portfolio_id = aws_servicecatalog_portfolio.web_app_portfolio.id
   product_id   = aws_servicecatalog_product.web_app_product.id
 }
 
-resource "aws_servicecatalog_launch_constraint" "launch_role" {
+resource "aws_servicecatalog_constraint" "launch_role" {
   portfolio_id = aws_servicecatalog_portfolio.web_app_portfolio.id
   product_id   = aws_servicecatalog_product.web_app_product.id
   role_arn     = "arn:aws:iam::123456789012:role/ServiceCatalogLaunchRole"
