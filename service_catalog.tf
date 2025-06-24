@@ -38,4 +38,10 @@ resource "aws_servicecatalog_constraint" "launch_role" {
   parameters = jsonencode({
     RoleArn = "arn:aws:iam::784733659029:role/SC-role"
   })
+
+  depends_on = [
+    aws_servicecatalog_portfolio.example,
+    aws_servicecatalog_product.example
+  ]
 }
+
