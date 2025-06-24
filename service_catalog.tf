@@ -21,12 +21,17 @@ resource "aws_servicecatalog_product" "web_app_product" {
 }
 
 resource "aws_servicecatalog_principal_portfolio_association" "association" {
-  portfolio_id = aws_servicecatalog_portfolio.web_app_portfolio.id
-  product_id   = aws_servicecatalog_product.web_app_product.id
+  portfolio_id = aws_servicecatalog_portfolio.example.id
+  principal_arn = "arn:aws:iam::784733659029:role/SC-role"
 }
 
+
 resource "aws_servicecatalog_constraint" "launch_role" {
-  portfolio_id = aws_servicecatalog_portfolio.web_app_portfolio.id
-  product_id   = aws_servicecatalog_product.web_app_product.id
-  role_arn     = "arn:aws:iam::123456789012:role/ServiceCatalogLaunchRole"
+  portfolio_id = aws_servicecatalog_portfolio.example.id
+  product_id   = aws_servicecatalog_product.example.id
+  type         = "LAUNCH"
+  parameters   = jsonencode({
+    RoleArn = "arn:aws:iam::784733659029:role/SC-role"
+  })
 }
+
