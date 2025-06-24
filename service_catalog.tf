@@ -23,6 +23,30 @@ resource "aws_servicecatalog_product" "example" {
   }
 }
 
+resource "aws_iam_role" "service_catalog_launch_role" {
+  name = "ServiceCatalogLaunchRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "servicecatalog.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+# Optional: Attach policies to allow launching resources
+resource "aws_iam_role_policy_attachment" "launch_policy" {
+  role       = aws_iam_role.service_catalog_launch_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess" # or a custom policy
+}
+
+
 # Associate an IAM Role with the Portfolio
 resource "aws_servicecatalog_principal_portfolio_association" "association" {
   portfolio_id  = aws_servicecatalog_portfolio.example.id
