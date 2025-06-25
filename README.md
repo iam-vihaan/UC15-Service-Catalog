@@ -23,6 +23,7 @@ No modules.
 | [aws_servicecatalog_portfolio.example](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_portfolio) | resource |
 | [aws_servicecatalog_principal_portfolio_association.association](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_principal_portfolio_association) | resource |
 | [aws_servicecatalog_product.example](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_product) | resource |
+| [aws_servicecatalog_product_portfolio_association.example](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_product_portfolio_association) | resource |
 
 ## Inputs
 
