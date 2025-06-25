@@ -1,7 +1,7 @@
 
 # Upload the CloudFormation template to the existing S3 bucket
 resource "aws_s3_object" "template" {
-  bucket = "kasi-SC-bucket"
+  bucket = "kasi-sc-bucket"
   key    = "ec2-webapp-template.yaml"
   source = "ec2-webapp-template.yaml"
   etag   = filemd5("ec2-webapp-template.yaml")
@@ -26,7 +26,7 @@ resource "aws_servicecatalog_product" "example" {
   provisioning_artifact_parameters {
     name           = "v1"
     description    = "Initial version"
-    template_url   = "https://kasi-SC-bucket.s3.amazonaws.com/${aws_s3_object.template.key}"
+    template_url   = "https://kasi-sc-bucket.s3.amazonaws.com/${aws_s3_object.template.key}"
     type           = "CLOUD_FORMATION_TEMPLATE"
   }
 }
