@@ -26,7 +26,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
-      ImageId: ami-0c02fb55956c7d316
+      ImageId: ami-09e6f87a47903347c
       SecurityGroups:
         - !Ref WebAppSecurityGroup
       UserData:
