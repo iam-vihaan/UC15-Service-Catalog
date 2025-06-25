@@ -29,7 +29,7 @@ resource "aws_servicecatalog_principal_portfolio_association" "association" {
 }
 
 # Associate the Product with the Portfolio
-resource "aws_servicecatalog_portfolio_product_association" "example" {
+resource "aws_servicecatalog_product_portfolio_association" "example" {
   portfolio_id = aws_servicecatalog_portfolio.example.id
   product_id   = aws_servicecatalog_product.example.id
 }
@@ -47,6 +47,6 @@ resource "aws_servicecatalog_constraint" "launch_role" {
   depends_on = [
     aws_servicecatalog_portfolio.example,
     aws_servicecatalog_product.example,
-    aws_servicecatalog_portfolio_product_association.example
+    aws_servicecatalog_product_portfolio_association.example
   ]
 }
