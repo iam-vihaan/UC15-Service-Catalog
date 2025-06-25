@@ -19,8 +19,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_s3_bucket.example](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket_object.template](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/s3_bucket_object) | resource |
+| [aws_s3_object.template](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/s3_object) | resource |
 | [aws_servicecatalog_constraint.launch_role](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_constraint) | resource |
 | [aws_servicecatalog_portfolio.example](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_portfolio) | resource |
 | [aws_servicecatalog_principal_portfolio_association.association](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_principal_portfolio_association) | resource |
