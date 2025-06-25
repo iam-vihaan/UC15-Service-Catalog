@@ -5,20 +5,66 @@ resource "aws_servicecatalog_portfolio" "example" {
   provider_name = "ExampleProvider"
 }
 
-# Create a Service Catalog Product
+# Create a Service Catalog Product with embedded CloudFormation template
 resource "aws_servicecatalog_product" "example" {
   name          = "ExampleProduct"
   owner         = "ExampleOwner"
-  description   = "An example product"
+  description   = "An example product that launches an EC2 instance"
   distributor   = "ExampleDistributor"
   support_description = "Contact support@example.com"
   type          = "CLOUD_FORMATION_TEMPLATE"
 
   provisioning_artifact_parameters {
-    name           = "v1"
-    description    = "Initial version"
-    template_url   = "https://kasi-hcl-bucket-uc8.s3.us-east-1.amazonaws.com/SC-Templeate/CFT.txt"
-    type           = "CLOUD_FORMATION_TEMPLATE"
+    name        = "v1"
+    description = "Initial version"
+    type        = "CLOUD_FORMATION_TEMPLATE"
+
+    template_body = <<CFT
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Launches a simple web application on an EC2 instance
+
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t3.micro
+    Description: EC2 instance type
+
+Resources:
+  WebAppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  WebAppInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: ami-0c02fb55956c7d316
+      SecurityGroups:
+        - !Ref WebAppSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd
+          systemctl start httpd
+          systemctl enable httpd
+          echo "<h1>Welcome to your Web App!</h1>" > /var/www/html/index.html
+
+Outputs:
+  WebAppURL:
+    Description: Public URL of the web application
+    Value: !Sub "http://${WebAppInstance.PublicDnsName}"
+CFT
   }
 }
 
