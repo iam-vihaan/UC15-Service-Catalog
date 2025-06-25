@@ -26,7 +26,7 @@ resource "aws_servicecatalog_product" "example" {
 # Associate an IAM Role with the Portfolio
 resource "aws_servicecatalog_principal_portfolio_association" "association" {
   portfolio_id  = aws_servicecatalog_portfolio.example.id
-  principal_arn = "arn:aws:iam::784733659029:role/SC-role"
+  principal_arn = "arn:aws:iam::784733659029:role/Service-Catalog"
 }
 
 # Add a Launch Constraint to the Product
@@ -36,7 +36,7 @@ resource "aws_servicecatalog_constraint" "launch_role" {
   type         = "LAUNCH"
 
   parameters = jsonencode({
-    RoleArn = "arn:aws:iam::784733659029:role/SC-role"
+    RoleArn = "arn:aws:iam::784733659029:role/Service-Catalog"
   })
 
   depends_on = [
