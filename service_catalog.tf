@@ -1,11 +1,11 @@
 
 # Upload the CloudFormation template to S3
-resource "aws_s3_bucket" "example" {
-  bucket = "my-servicecatalog-templates"
+resource "aws_s3_bucket" "kasi-SC-bucket" {
+  bucket = "kasi-SC-bucket"
 }
 
 resource "aws_s3_bucket_object" "template" {
-  bucket = aws_s3_bucket.example.bucket
+  bucket = aws_s3_bucket.kasi-SC-bucket
   key    = "ec2-webapp-template.yaml"
   source = "ec2-webapp-template.yaml"
   etag   = filemd5("ec2-webapp-template.yaml")
