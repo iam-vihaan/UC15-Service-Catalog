@@ -1,4 +1,3 @@
-
 # Create a Service Catalog Portfolio
 resource "aws_servicecatalog_portfolio" "example" {
   name          = "ExamplePortfolio"
@@ -29,6 +28,12 @@ resource "aws_servicecatalog_principal_portfolio_association" "association" {
   principal_arn = "arn:aws:iam::784733659029:role/Service-Catalog"
 }
 
+# Associate the Product with the Portfolio
+resource "aws_servicecatalog_portfolio_product_association" "example" {
+  portfolio_id = aws_servicecatalog_portfolio.example.id
+  product_id   = aws_servicecatalog_product.example.id
+}
+
 # Add a Launch Constraint to the Product
 resource "aws_servicecatalog_constraint" "launch_role" {
   portfolio_id = aws_servicecatalog_portfolio.example.id
@@ -41,7 +46,7 @@ resource "aws_servicecatalog_constraint" "launch_role" {
 
   depends_on = [
     aws_servicecatalog_portfolio.example,
-    aws_servicecatalog_product.example
+    aws_servicecatalog_product.example,
+    aws_servicecatalog_portfolio_product_association.example
   ]
 }
-
