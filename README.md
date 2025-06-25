@@ -19,9 +19,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_iam_policy.launch_permissions](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/iam_policy) | resource |
-| [aws_iam_role.service_catalog_launch_role](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.attach_policy](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_servicecatalog_constraint.launch_role](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_constraint) | resource |
 | [aws_servicecatalog_portfolio.example](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_portfolio) | resource |
 | [aws_servicecatalog_principal_portfolio_association.association](https://registry.terraform.io/providers/hashicorp/aws/5.99.1/docs/resources/servicecatalog_principal_portfolio_association) | resource |
