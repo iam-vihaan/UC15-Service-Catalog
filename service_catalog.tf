@@ -1,3 +1,16 @@
+
+# Upload the CloudFormation template to S3
+resource "aws_s3_bucket" "example" {
+  bucket = "my-servicecatalog-templates"
+}
+
+resource "aws_s3_bucket_object" "template" {
+  bucket = aws_s3_bucket.example.bucket
+  key    = "ec2-webapp-template.yaml"
+  source = "ec2-webapp-template.yaml"
+  etag   = filemd5("ec2-webapp-template.yaml")
+}
+
 # Create a Service Catalog Portfolio
 resource "aws_servicecatalog_portfolio" "example" {
   name          = "ExamplePortfolio"
@@ -5,7 +18,7 @@ resource "aws_servicecatalog_portfolio" "example" {
   provider_name = "ExampleProvider"
 }
 
-# Create a Service Catalog Product with embedded CloudFormation template
+# Create a Service Catalog Product using the uploaded template
 resource "aws_servicecatalog_product" "example" {
   name          = "ExampleProduct"
   owner         = "ExampleOwner"
@@ -15,56 +28,10 @@ resource "aws_servicecatalog_product" "example" {
   type          = "CLOUD_FORMATION_TEMPLATE"
 
   provisioning_artifact_parameters {
-    name        = "v1"
-    description = "Initial version"
-    type        = "CLOUD_FORMATION_TEMPLATE"
-
-    template_body = <<CFT
-AWSTemplateFormatVersion: '2010-09-09'
-Description: Launches a simple web application on an EC2 instance
-
-Parameters:
-  InstanceType:
-    Type: String
-    Default: t2.micro
-    AllowedValues:
-      - t2.micro
-      - t2.small
-      - t3.micro
-    Description: EC2 instance type
-
-Resources:
-  WebAppSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable HTTP access
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-
-  WebAppInstance:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: !Ref InstanceType
-      ImageId: ami-0c02fb55956c7d316
-      SecurityGroups:
-        - !Ref WebAppSecurityGroup
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          yum update -y
-          yum install -y httpd
-          systemctl start httpd
-          systemctl enable httpd
-          echo "<h1>Welcome to your Web App!</h1>" > /var/www/html/index.html
-
-Outputs:
-  WebAppURL:
-    Description: Public URL of the web application
-    Value: !Sub "http://${WebAppInstance.PublicDnsName}"
-CFT
+    name           = "v1"
+    description    = "Initial version"
+    template_url   = "https://${aws_s3_bucket.example.bucket}.s3.amazonaws.com/${aws_s3_bucket_object.template.key}"
+    type           = "CLOUD_FORMATION_TEMPLATE"
   }
 }
 
